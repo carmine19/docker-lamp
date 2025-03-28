@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Apache + PHP 7.4
+  php74:
+    build:
+      context: ./php/7.4
+    volumes:
+      - ./www:/var/www/html
+      - ./config/apache/sites-available:/etc/apache2/sites-available
+      - ./config/php/7.4/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8074:80"
+    depends_on:
+      - mysql
+    networks:
+      - lamp-network
+
+  # Apache + PHP 8.1
+  php81:
+    build:
+      context: ./php/8.1
+    volumes:
+      - ./www:/var/www/html
+      - ./config/apache/sites-available:/etc/apache2/sites-available
+      - ./config/php/8.1/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - lamp-network
+
+  # Apache + PHP 8.2
+  php82:
+    build:
+      context: ./php/8.2
+    volumes:
+      - ./www:/var/www/html
+      - ./config/apache/sites-available:/etc/apache2/sites-available
+      - ./config/php/8.2/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8082:80"
+    depends_on:
+      - mysql
+    networks:
+      - lamp-network
+
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: lamp_db
+      MYSQL_USER: lamp_user
+      MYSQL_PASSWORD: lamp_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+    networks:
+      - lamp-network
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root_password
+      PMA_ARBITRARY: 1
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+    networks:
+      - lamp-network
+
+networks:
+  lamp-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
