@@ -1,6 +1,6 @@
 # LAMP Stack con Docker Multi-PHP
 
-Questo progetto fornisce un ambiente LAMP (Linux, Apache, MySQL, PHP) utilizzando Docker con supporto per multiple versioni di PHP (7.4, 8.1, 8.2) e PHPMyAdmin.
+Questo progetto fornisce un ambiente LAMP (Linux, Apache, MySQL, PHP) utilizzando Docker con supporto per multiple versioni di PHP (7.4, 8.1, 8.2, 8.3) e phpMyAdmin.
 
 ## Struttura del Progetto
 
@@ -13,7 +13,8 @@ Questo progetto fornisce un ambiente LAMP (Linux, Apache, MySQL, PHP) utilizzand
 ├── php/                     # Dockerfile per diverse versioni di PHP
 │   ├── 7.4/
 │   ├── 8.1/
-│   └── 8.2/
+│   ├── 8.2/
+│   └── 8.3/
 ├── www/                     # Directory per i file del sito web
 └── docker-compose.yml       # Configurazione Docker Compose
 ```
@@ -29,7 +30,7 @@ Questo progetto fornisce un ambiente LAMP (Linux, Apache, MySQL, PHP) utilizzand
 
 ```bash
 git clone <repository-url>
-cd lamp-docker
+cd docker-lamp
 ```
 
 2. Avvia i container:
@@ -43,7 +44,8 @@ docker-compose up -d
 - PHP 7.4: http://localhost:8074
 - PHP 8.1: http://localhost:8081
 - PHP 8.2: http://localhost:8082
-- PHPMyAdmin: http://localhost:8000
+- PHP 8.3: http://localhost:8083
+- phpMyAdmin: http://localhost:8000
 
 ## Configurazione del Database
 
@@ -61,6 +63,7 @@ Ogni versione di PHP è accessibile tramite una porta diversa:
 - PHP 7.4: http://localhost:8074
 - PHP 8.1: http://localhost:8081
 - PHP 8.2: http://localhost:8082
+- PHP 8.3: http://localhost:8083
 
 Tutti i servizi condividono la stessa directory `www` per i file del sito web.
 
@@ -104,14 +107,22 @@ eseguito correttamente le migrazioni e aver configurato l'ambiente.
 Per rendere effettive le modifiche riavvia php nel contenitore docker: 
 
 ```bash
- docker-compose restart php74 php81 php82
+ docker-compose restart php74 php81 php82 php83
  ```
 
  se hai problemi riavvia tutti i container:
 
  ```bash
- docker-compose restart
- ```
+docker-compose restart
+```
+
+## Test
+
+Per verificare che i container rispondano correttamente puoi eseguire lo script:
+
+```bash
+./tests/healthcheck.sh
+```
 
 ## Licenza
 

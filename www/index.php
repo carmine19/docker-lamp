@@ -101,7 +101,7 @@
         
         <div class="links">
             <h2>Collegamenti Utili</h2>
-            <a href="http://localhost:8000" target="_blank">PHPMyAdmin</a>
+            <a href="http://localhost:8000" target="_blank">phpMyAdmin</a>
             <a href="phpinfo.php" target="_blank">PHP Info</a>
         </div>
     </div>
